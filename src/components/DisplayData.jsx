@@ -14,6 +14,8 @@ export default function DisplayData() {
   const { finalData } = useContext(multiStepContext);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [filterValue, setFilterValue] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -22,10 +24,28 @@ export default function DisplayData() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    setFilterValue(""); // Reset the filter value
+  };
+
+  const handleChangeFilter = (event) => {
+    const value = event.target.value;
+    setFilterValue(value);
+
+    // Filter the data based on the filter value
+    const filteredData = finalData.filter((data) =>
+      data.country.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredData(filteredData);
   };
 
   return (
     <div>
+      <input
+        type="text"
+        value={filterValue}
+        onChange={handleChangeFilter}
+        placeholder="Filter by country"
+      />
       <TableContainer style={{ display: "flex", justifyContent: "center" }}>
         <Table
           border="1"
@@ -49,7 +69,7 @@ export default function DisplayData() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {finalData
+            {(filterValue === "" ? finalData : filteredData)
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((data) => (
                 <TableRow key={data.email}>
@@ -70,7 +90,7 @@ export default function DisplayData() {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={finalData.length}
+        count={filterValue === "" ? finalData.length : filteredData.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
