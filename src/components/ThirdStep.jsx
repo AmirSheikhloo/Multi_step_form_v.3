@@ -1,5 +1,12 @@
 import React, { useContext } from "react";
-import { Button, TextField } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { multiStepContext } from "./StepContext";
 
 export default function ThirdStep() {
@@ -8,22 +15,28 @@ export default function ThirdStep() {
   return (
     <div>
       <div>
-        <TextField
-          label="City"
-          value={userData['city']}
-          onChange={(e) => setUserData({...userData, "city" : e.target.value}) }
-         
-          margin="normal"
-          variant="outlined"
-          color="secondary"
-        />
+        <FormControl fullWidth margin="normal">
+          <InputLabel>City</InputLabel>
+          <Select
+            variant="outlined"
+            color="secondary"
+            value={userData["city"]}
+            label="City"
+            onChange={(e) => setUserData({ ...userData, city: e.target.value })}
+          >
+            <MenuItem value="Tehran">Tehran</MenuItem>
+            <MenuItem value="NewYork">New York</MenuItem>
+            <MenuItem value="Yazd">Yazd</MenuItem>
+          </Select>
+        </FormControl>
       </div>
       <div>
         <TextField
           label="Landmark"
-          value={userData['landmark']}
-          onChange={(e) => setUserData({...userData, "landmark" : e.target.value}) }
-         
+          value={userData["landmark"]}
+          onChange={(e) =>
+            setUserData({ ...userData, landmark: e.target.value })
+          }
           margin="normal"
           variant="outlined"
           color="secondary"
@@ -32,9 +45,10 @@ export default function ThirdStep() {
       <div>
         <TextField
           label="Postal Code"
-          value={userData['postcode']}
-          onChange={(e) => setUserData({...userData, "postcode" : e.target.value}) }
-         
+          value={userData["postcode"]}
+          onChange={(e) =>
+            setUserData({ ...userData, postcode: e.target.value })
+          }
           margin="normal"
           variant="outlined"
           color="secondary"
