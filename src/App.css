@@ -28,6 +28,18 @@
   color: #61dafb;
 }
 
+.action-button {
+  width: 60px;
+}
+
+.cancel-button {
+  margin-top: 2px; /* Adjust the margin-top value as needed */
+  width: 124px;
+
+}
+
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
