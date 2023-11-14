@@ -28,16 +28,41 @@
   color: #61dafb;
 }
 
-.action-button {
-  width: 60px;
-}
 
 .cancel-button {
   margin-top: 2px; /* Adjust the margin-top value as needed */
-  width: 124px;
+  width: 60px;
 
 }
 
+.action-button {
+  /* Common styles for all action buttons */
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  
+}
+
+.delete-button {
+  /* Styles for the delete button */
+  background-color: rgb(146, 24, 24);
+  color: white;
+  /* Add more styles as needed */
+}
+
+.more-button {
+  /* Styles for the more button */
+  background-color: rgb(255, 255, 255);
+  color: black;
+  /* Add more styles as needed */
+}
+
+.cancel-button {
+  /* Styles for the cancel button */
+  background-color: gray;
+  color: white;
+  /* Add more styles as needed */
+}
 
 
 @keyframes App-logo-spin {

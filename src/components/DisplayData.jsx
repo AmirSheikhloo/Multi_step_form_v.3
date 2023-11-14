@@ -6,7 +6,6 @@ export default function DisplayData() {
   const { finalData, setFinalData } = React.useContext(multiStepContext); // Define setFinalData
   const [selectedRow, setSelectedRow] = React.useState(null);
 
-  
   // Prepare data for DataGrid
   const columns = [
     {
@@ -67,21 +66,26 @@ export default function DisplayData() {
           {selectedRow === params.id ? (
             <>
               <button
-                className="action-button"
+                className="action-button delete-button"
                 onClick={() => handleDelete(params.id)}
               >
                 Delete
               </button>
               <span> </span>
               <button
-                className="action-button"
+                className="action-button cancel-button"
                 onClick={() => setSelectedRow(null)}
               >
                 Cancel
               </button>
             </>
           ) : (
-            <button onClick={() => setSelectedRow(params.id)}>More</button>
+            <button
+              className="action-button more-button"
+              onClick={() => setSelectedRow(params.id)}
+            >
+              More
+            </button>
           )}
         </div>
       ),
