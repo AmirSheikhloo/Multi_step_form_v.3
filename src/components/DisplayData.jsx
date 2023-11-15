@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { DataGrid, GridPagination } from "@mui/x-data-grid";
 import { multiStepContext } from "./StepContext";
+import { Button } from "@mui/material";
 
 export default function DisplayData() {
   const { finalData, setFinalData } = React.useContext(multiStepContext); // Define setFinalData
@@ -11,13 +12,13 @@ export default function DisplayData() {
     {
       field: "firstname",
       headerName: "First Name",
-      width: 130,
+      width: 120,
       disableColumnMenu: true,
     },
     {
       field: "lastname",
       headerName: "Last Name",
-      width: 130,
+      width: 120,
       disableColumnMenu: true,
     },
     {
@@ -48,7 +49,7 @@ export default function DisplayData() {
     {
       field: "landmark",
       headerName: "Landmark",
-      width: 160,
+      width: 150,
       disableColumnMenu: true,
     },
     {
@@ -60,32 +61,40 @@ export default function DisplayData() {
     {
       field: "action",
       headerName: "Action",
-      width: 140,
+      width: 170,
+      align: "center", // Set the alignment of the cell content to center
+
+      headerAlign: "center",
       renderCell: (params) => (
         <div>
           {selectedRow === params.id ? (
             <>
-              <button
-                className="action-button delete-button"
+              <Button
+                size="small"
+                variant="contained"
+                color="error"
                 onClick={() => handleDelete(params.id)}
               >
                 Delete
-              </button>
+              </Button>
               <span> </span>
-              <button
-                className="action-button cancel-button"
+              <Button
+                size="small"
+                variant="contained"
+                color="primary"
                 onClick={() => setSelectedRow(null)}
               >
                 Cancel
-              </button>
+              </Button>
             </>
           ) : (
-            <button
-              className="action-button more-button"
+            <Button
+              variant="contained"
+              color="inherit"
               onClick={() => setSelectedRow(params.id)}
             >
               More
-            </button>
+            </Button>
           )}
         </div>
       ),
@@ -115,25 +124,40 @@ export default function DisplayData() {
   };
 
   return (
-    <div style={{ height: 400, width: "98%" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        checkboxSelection
-        page={page}
-        pageSize={pageSize}
-        onPageChange={handleChangePage}
-        onPageSizeChange={handleChangePageSize}
-        rowCount={rows.length}
-        components={{
-          pagination: (props) => (
-            <GridPagination
-              {...props}
-              rowsPerPageOptions={[5, 10, 15]} // Set the available rows per page options
-            />
-          ),
+    <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "10px",
         }}
-      />
+      >
+        <div>
+          <Button color="primary" variant="contained">
+            Spec
+          </Button>
+        </div>
+      </div>
+      <div style={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          checkboxSelection
+          page={page}
+          pageSize={pageSize}
+          onPageChange={handleChangePage}
+          onPageSizeChange={handleChangePageSize}
+          rowCount={rows.length}
+          components={{
+            pagination: (props) => (
+              <GridPagination
+                {...props}
+                rowsPerPageOptions={[5, 10, 15]} // Set the available rows per page options
+              />
+            ),
+          }}
+        />
+      </div>
     </div>
   );
 }

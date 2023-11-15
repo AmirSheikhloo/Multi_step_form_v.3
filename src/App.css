@@ -49,6 +49,13 @@
   color: white;
   /* Add more styles as needed */
 }
+.spec-button {
+  /* Styles for the delete button */
+  background-color: #1976d2;
+  border-color: #a29494;
+  color: #ffffff;
+  /* Add more styles as needed */
+}
 
 .more-button {
   /* Styles for the more button */
