@@ -72,6 +72,8 @@ export default function DisplayData() {
       headerName: "Action",
       width: 170,
       align: "center", // Set the alignment of the cell content to center
+      sortable: false, // Disable sorting for the "Action" column
+
 
       headerAlign: "center",
       renderCell: (params) => (
