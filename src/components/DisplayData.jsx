@@ -136,11 +136,8 @@ export default function DisplayData() {
     if (rowSelectionModel.length > 0) {
       const filtered = rows.filter((row) => rowSelectionModel.includes(row.id));
       setFilteredRows(filtered);
-    } else {
-      setFilteredRows([]);
+      setIsSpecButtonClicked(true);
     }
-
-    setIsSpecButtonClicked(true);
   };
 
   const handleResetButtonClick = () => {
