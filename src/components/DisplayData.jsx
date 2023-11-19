@@ -1,14 +1,23 @@
 import React, { useState } from "react";
-import { DataGrid, GridPagination } from "@mui/x-data-grid";
+import { DataGrid, GridPagination, GridToolbar } from "@mui/x-data-grid";
 import { multiStepContext } from "./StepContext";
 import { Button } from "@mui/material";
 
 export default function DisplayData() {
   const { finalData, setFinalData } = React.useContext(multiStepContext); // Define setFinalData
   const [selectedRow, setSelectedRow] = React.useState(null);
+  const [rowSelectionModel, setRowSelectionModel] = React.useState([]);
+  const [filteredRows, setFilteredRows] = React.useState([]);
+
 
   // Prepare data for DataGrid
   const columns = [
+    {
+      field: "id", // Add ID field
+      headerName: "ID", // Column header name
+      width: 70, // Set the width of the column
+      disableColumnMenu: true,
+    },
     {
       field: "firstname",
       headerName: "First Name",
@@ -30,19 +39,19 @@ export default function DisplayData() {
     {
       field: "email",
       headerName: "Email Address",
-      width: 210,
+      width: 200,
       disableColumnMenu: true,
     },
     {
       field: "country",
       headerName: "Country",
-      width: 120,
+      width: 100,
       disableColumnMenu: true,
     },
     {
       field: "district",
       headerName: "District",
-      width: 120,
+      width: 100,
       disableColumnMenu: true,
     },
     { field: "city", headerName: "City", width: 120, disableColumnMenu: true },
@@ -114,6 +123,7 @@ export default function DisplayData() {
     setPage(params.page);
   };
 
+
   const handleChangePageSize = (params) => {
     setPageSize(params.pageSize);
     setPage(0); // Reset page to the first page when changing the pageSize
@@ -122,6 +132,17 @@ export default function DisplayData() {
     const updatedRows = rows.filter((row) => row.id !== id);
     setFinalData(updatedRows); // Use setFinalData to update the state
   };
+
+  const handleSpecButtonClick = () => {
+    if (rowSelectionModel.length > 0) {
+      const filtered = rows.filter((row) => rowSelectionModel.includes(row.id));
+      setFilteredRows(filtered);
+    } else {
+      setFilteredRows([]);
+    }
+  };
+
+
 
   return (
     <div>
@@ -133,22 +154,27 @@ export default function DisplayData() {
         }}
       >
         <div>
-          <Button color="primary" variant="contained">
+          <Button onClick={() => handleSpecButtonClick()} color="primary" variant="contained">
             Spec
           </Button>
         </div>
       </div>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
-          rows={rows}
+          rows={filteredRows.length === 0 ? rows : filteredRows}
           columns={columns}
           checkboxSelection
+          onRowSelectionModelChange={(newRowSelectionModel) => {
+            setRowSelectionModel(newRowSelectionModel);
+          }}
+          rowSelectionModel={rowSelectionModel}
           page={page}
           pageSize={pageSize}
+          disableRowSelectionOnClick
           onPageChange={handleChangePage}
           onPageSizeChange={handleChangePageSize}
-          rowCount={rows.length}
-          components={{
+          rowCount={filteredRows.length === 0 ? rows.length : filteredRows.length}          components={{
+            Toolbar: GridToolbar, // Enable toolbar with column filters and export options
             pagination: (props) => (
               <GridPagination
                 {...props}
