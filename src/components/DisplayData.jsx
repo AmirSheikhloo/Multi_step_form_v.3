@@ -8,7 +8,7 @@ export default function DisplayData() {
   const [selectedRow, setSelectedRow] = React.useState(null);
   const [rowSelectionModel, setRowSelectionModel] = React.useState([]);
   const [filteredRows, setFilteredRows] = React.useState([]);
-
+  const [isSpecButtonClicked, setIsSpecButtonClicked] = React.useState(false);
 
   // Prepare data for DataGrid
   const columns = [
@@ -123,7 +123,6 @@ export default function DisplayData() {
     setPage(params.page);
   };
 
-
   const handleChangePageSize = (params) => {
     setPageSize(params.pageSize);
     setPage(0); // Reset page to the first page when changing the pageSize
@@ -140,28 +139,43 @@ export default function DisplayData() {
     } else {
       setFilteredRows([]);
     }
+
+    setIsSpecButtonClicked(true);
   };
 
-
+  const handleResetButtonClick = () => {
+    setRowSelectionModel([]);
+    setFilteredRows([]);
+    setIsSpecButtonClicked(false);
+  };
 
   return (
     <div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "10px",
-        }}
-      >
+      <div style={{ display: "flex", alignItems: "center" }}>
         <div>
-          <Button onClick={() => handleSpecButtonClick()} color="primary" variant="contained">
+          <Button
+            onClick={handleSpecButtonClick}
+            color="primary"
+            variant="contained"
+            style={{ marginBottom: '10px', marginRight: '10px' }}
+          >
             Spec
+          </Button>
+        </div>
+        <div>
+          <Button
+            onClick={handleResetButtonClick}
+            color="secondary"
+            variant="contained"
+            style={{ marginBottom: '10px' }}
+          >
+            Reset
           </Button>
         </div>
       </div>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
-          rows={filteredRows.length === 0 ? rows : filteredRows}
+          rows={isSpecButtonClicked ? filteredRows : rows}
           columns={columns}
           checkboxSelection
           onRowSelectionModelChange={(newRowSelectionModel) => {
@@ -173,7 +187,8 @@ export default function DisplayData() {
           disableRowSelectionOnClick
           onPageChange={handleChangePage}
           onPageSizeChange={handleChangePageSize}
-          rowCount={filteredRows.length === 0 ? rows.length : filteredRows.length}          components={{
+          rowCount={isSpecButtonClicked ? filteredRows.length : rows.length}
+          components={{
             Toolbar: GridToolbar, // Enable toolbar with column filters and export options
             pagination: (props) => (
               <GridPagination
